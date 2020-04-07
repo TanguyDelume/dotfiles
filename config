@@ -1,0 +1,18 @@
+#!/bin/bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+case "$1" in
+	install)	
+		cp $DIR/bspwmrc /.config/bspwm/bspwmrc
+		cp $DIR/sxhkdrc ~/.config/sxhkd/sxhkdrc
+		cp $DIR/Xdefaults ~/.Xdefaults	
+		;;
+        update)
+		cp ~/.config/bspwm/bspwmrc $DIR
+		cp ~/.config/sxhkd/sxhkdrc $DIR
+		cp ~/.Xdefaults $DIR/Xdefaults
+                ;;
+            *)
+                echo "Usage: $0 {install|update}"
+esac
