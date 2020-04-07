@@ -4,7 +4,10 @@
 
 # terminal emulator
 super + Return
-	xterm
+	/usr/bin/rxvt-unicode
+
+super + l
+	slimlock
 
 super + e
 	chromium-browser
