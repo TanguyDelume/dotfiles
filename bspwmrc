@@ -1,11 +1,16 @@
-#! /bin/sh
+#!/bin/sh
 
 sxhkd &
 
-feh --bg-fill ~/Pictures/sky.jpg
+# CHANGEME with your own wallpaper dir
+wallpaper_dir="~/Pictures/walls"
+
+export dotfile_dir="$(dirname "$(readlink -f "$0")")"
+
+feh --randomize --bg-fill ${wallpaper_dir}/*
 wmname LG3D
 
-bspc monitor -d I II III IV V VI VII VIII IX X
+${dotfile_dir}/set_screen.sh
 
 bspc config border_width         2
 bspc config window_gap          12
