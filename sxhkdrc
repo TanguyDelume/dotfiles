@@ -13,7 +13,7 @@ super + s
 	webstorm
 
 super + l
-	slimlock
+	dm-tool lock
 
 super + e
 	chromium-browser
