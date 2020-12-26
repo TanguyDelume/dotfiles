@@ -32,6 +32,31 @@ work(){
 
 work > "${PANEL_FIFO}" &
 
+battery()
+{
+	
+    while true; do        
+        #battery
+	BATPERC=$(acpi --battery | cut -d, -f2)
+        value=${BATPERC%"%"}
+	ICONBAT=""
+	if (( value > 80 )); then
+		ICONBAT=""
+	elif (( value > 60 )); then
+		ICONBAT=""
+	elif (( value > 40 )); then
+		ICONBAT=""
+	elif (( value > 20 )); then
+		ICONBAT=""
+	else
+		ICONBAT=""
+	fi
+	echo "BATTERY ${ICONBAT}${BATPERC} "
+    done
+}
+
+battery > "${PANEL_FIFO}" &
+
 clock() 
 {
     while true; do        
@@ -101,6 +126,9 @@ while read -r line; do
         THEME*)
             fn_theme="${line#THEME }"
             ;;
+    	BATTERY*)
+	    fn_battery="${line#BATTERY}"
+	    ;;
         CLOCK*)
             fn_time="${line#CLOCK }"
             ;;
@@ -133,5 +161,5 @@ while read -r line; do
             title="%{F${color_sec_b2} B${color_sec_b2} T3}${sep_right}%{F- B${color_sec_b2} T1} ${name} %{F${color_sec_b2} B- T3}${sep_right}%{F- B- T1} "
             ;;
     esac
-    printf "%s\n" "%{l}${fn_work}${title}%{S1}${fn_work}${title} %{S0}%{r}${stab}${fn_space}${fn_mem}${fn_cpu}${fn_sync}${fn_vol}${fn_date}${stab}${fn_time}${fn_theme}%{S1}${fn_music}${fn_date}${stab}${fn_time}${fn_theme}"
+    printf "%s\n" "%{l}${fn_work}${title}%{S1}${fn_work}${title} %{S0}%{r}${stab}${fn_space}${fn_mem}${fn_cpu}${fn_sync}${fn_vol}${stab}${fn_battery}${stab}${fn_date}${stab}${fn_time}${fn_theme}%{S1}${fn_music}${fn_date}${stab}${fn_time}${fn_theme}"
 done < "${PANEL_FIFO}" | lemonbar -d -f "${FONTS}" -f "${ICONFONTS}" -f "${FONTS_P}" -g "${GEOMETRY}" -B "${BBG}" -F "${BFG}" -u 2 | sh > /dev/null
