@@ -6,6 +6,12 @@
 super + Return
 	/usr/bin/rxvt-unicode
 
+super + c
+	clion
+
+super + s
+	webstorm
+
 super + l
 	slimlock
 
@@ -113,3 +119,9 @@ XF86AudioRaiseVolume
 	amixer set Master 5%+
 XF86AudioMute
         amixer set Master toggle
+
+#Brightness control
+XF86MonBrightnessDown
+	sudo brightnessctl -d "intel_backlight" set -5%
+XF86MonBrightnessUp
+	sudo brightnessctl -d "intel_backlight" set +5%

@@ -1,11 +1,4 @@
-﻿# J-CUBE clang-format config file
-#
-# Missing options are meant to take the default value from the base style.
-#
-# See clang-format documentation for details about each option.
-# https://clang.llvm.org/docs/ClangFormatStyleOptions.html
-
-BasedOnStyle: Google
+﻿BasedOnStyle: Google
 
 TabWidth: 4
 IndentWidth: 4
