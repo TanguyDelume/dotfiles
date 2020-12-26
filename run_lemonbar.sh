@@ -52,6 +52,7 @@ battery()
 		ICONBAT=""
 	fi
 	echo "BATTERY ${ICONBAT}${BATPERC} "
+        sleep ${BATTERY_SLEEP}
     done
 }
 
