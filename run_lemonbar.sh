@@ -109,6 +109,26 @@ volume()
 
 volume > "${PANEL_FIFO}" &
 
+network() {
+    while true; do
+	WIFISTR=$( iwconfig wlp2s0 | grep "Link" | sed 's/ //g' | sed 's/LinkQuality=//g' | sed 's/\/.*//g')
+    if [ ! -z $WIFISTR ] ; then
+        WIFISTR=$(( ${WIFISTR} * 100 / 70))
+        ESSID=$(iwconfig wlp2s0 | grep ESSID | sed 's/ //g' | sed 's/.*://' | cut -d "\"" -f 2)
+        if [ $WIFISTR -ge 1 ] ; then
+           echo -e "NETWORK  ${ESSID} ${WIFISTR}%"
+   	else
+	   echo -e "NETWORK  no signal "
+        fi
+    else	
+   	echo -e "NETWORK  disconnected "
+    fi	
+
+        sleep ${NETWORK_SLEEP} 
+    done
+}
+
+network > "${PANEL_FIFO}" &
 
 show_theme() {    
     while true; do
@@ -139,6 +159,9 @@ while read -r line; do
         VOLUME*)
             fn_vol="${line#VOLUME }"
             ;;
+    	NETWORK*)
+	    fn_network="${line#NETWORK }"
+	    ;;
         WORKSPACES*)
             fn_work="${line#WORKSPACES }"
             ;;       
@@ -162,5 +185,5 @@ while read -r line; do
             title="%{F${color_sec_b2} B${color_sec_b2} T3}${sep_right}%{F- B${color_sec_b2} T1} ${name} %{F${color_sec_b2} B- T3}${sep_right}%{F- B- T1} "
             ;;
     esac
-    printf "%s\n" "%{l}${fn_work}${title}%{S1}${fn_work}${title} %{S0}%{r}${stab}${fn_space}${fn_mem}${fn_cpu}${fn_sync}${fn_vol}${stab}${fn_battery}${stab}${fn_date}${stab}${fn_time}${fn_theme}%{S1}${fn_music}${fn_date}${stab}${fn_time}${fn_theme}"
+    printf "%s\n" "%{l}${fn_work}${title}%{S1}${fn_work}${title} %{S0}%{r}${stab}${fn_space}${fn_mem}${fn_cpu}${fn_sync}${fn_network}${fn_vol}${stab}${fn_battery}${stab}${fn_date}${stab}${fn_time}${fn_theme}%{S1}${fn_music}${fn_date}${stab}${fn_time}${fn_theme}"
 done < "${PANEL_FIFO}" | lemonbar -d -f "${FONTS}" -f "${ICONFONTS}" -f "${FONTS_P}" -g "${GEOMETRY}" -B "${BBG}" -F "${BFG}" -u 2 | sh > /dev/null
