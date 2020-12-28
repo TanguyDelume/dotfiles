@@ -9,6 +9,6 @@ if [ -z "$term_disco" ]; then
 	bspc monitor HDMI-0 -d I II III IV V VI VII VIII IX X
 else
 	echo "one screen"
-	xrandr --output eDP-1-1 --primary
+	xrandr --output HDMI-0 --off --output eDP-1-1 --auto
 	bspc monitor eDP-1-1 -d I II III IV V VI VII VIII IX X
 fi
